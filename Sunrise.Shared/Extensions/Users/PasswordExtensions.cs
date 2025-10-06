@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using BCrypt.Net;
 
 namespace Sunrise.Shared.Extensions.Users;
 
@@ -32,6 +33,6 @@ public static class PasswordExtensions
             sb.Append(b.ToString("x2"));
         }
 
-        return sb.ToString();
+        return BCrypt.Net.BCrypt.HashPassword(sb.ToString(), workFactor: 12);
     }
 }
