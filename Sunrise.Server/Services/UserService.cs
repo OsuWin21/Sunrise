@@ -8,8 +8,6 @@ using Sunrise.Shared.Enums.Users;
 using Sunrise.Shared.Objects.Sessions;
 using Sunrise.Shared.Repositories;
 using Sunrise.Shared.Services;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Sunrise.Server.Services;
 
