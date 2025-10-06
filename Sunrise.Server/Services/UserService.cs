@@ -8,6 +8,7 @@ using Sunrise.Shared.Enums.Users;
 using Sunrise.Shared.Objects.Sessions;
 using Sunrise.Shared.Repositories;
 using Sunrise.Shared.Services;
+using System.Security.Cryptography;
 
 namespace Sunrise.Server.Services;
 
@@ -20,7 +21,7 @@ public class UserService(DatabaseService database, SessionRepository sessions, R
         if (user == null)
             return (null, "User with this username does not exist.", LoginResponse.InvalidCredentials);
 
-        if (user.Passhash != loginRequest.PassHash)
+        if (!BCrypt.Net.BCrypt.Verify(MD5.HashData(System.Text.Encoding.UTF8.GetBytes(loginRequest.PassHash)).Aggregate("", (s, b) => s + b.ToString("x2")), user.Passhash))
             return (null, "Invalid credentials.", LoginResponse.InvalidCredentials);
 
         if (Configuration.OnMaintenance && !user.Privilege.HasFlag(UserPrivilege.Admin))
